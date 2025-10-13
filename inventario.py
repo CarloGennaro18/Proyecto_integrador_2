@@ -118,7 +118,7 @@ def baja_producto(productos):
         for i, producto in enumerate(productos):
             if producto['codigo'] == codigo:
                 print(f"\nProducto encontrado:")
-                print(f"  Código: {producto['codigo']}")
+                print(f"  Codigo: {producto['codigo']}")
                 print(f"  Nombre: {producto['nombre']}")
                 print(f"  Precio: Bs. {producto['precio']:.2f}")
                 print(f"  Stock: {producto['stock']}")
@@ -133,3 +133,72 @@ def baja_producto(productos):
                 
     except Exception as e:
         print(f"\nError al eliminar producto: {e}")
+    
+def modificar_producto(productos):
+    """Modifica los datos de un producto existente"""
+    print("\n" + "="*60)
+    print("MODIFICAR PRODUCTO")
+    print("="*60)
+    
+    if not productos:
+        print("No hay productos en el inventario")
+        return
+    
+    try:
+        codigo = input("Codigo del producto a modificar: ").strip().upper()
+        valido, mensaje = validar_codigo(codigo, productos, debe_existir=True)
+        if not valido:
+            print(f"{mensaje}")
+            return
+        
+        # Buscar producto
+        for producto in productos:
+            if producto['codigo'] == codigo:
+                print(f"\nProducto actual:")
+                print(f"  1. Nombre: {producto['nombre']}")
+                print(f"  2. Precio: Bs. {producto['precio']:.2f}")
+                print(f"  3. Stock: {producto['stock']}")
+                print(f"  4. Stock mínimo: {producto['stock_minimo']}")
+                
+                campo = input("\n¿Que campo desea modificar? (1-4): ").strip()
+                
+                if campo == '1':
+                    nuevo_nombre = input("Nuevo nombre: ").strip()
+                    if nuevo_nombre:
+                        producto['nombre'] = nuevo_nombre
+                        print("Nombre actualizado")
+                    else:
+                        print("El nombre no puede estar vacio")
+                        
+                elif campo == '2':
+                    nuevo_precio_str = input("Nuevo precio: ")
+                    valido, nuevo_precio = validar_precio(nuevo_precio_str)
+                    if valido:
+                        producto['precio'] = nuevo_precio
+                        print("Precio actualizado")
+                    else:
+                        print(f"{nuevo_precio}")
+                        
+                elif campo == '3':
+                    nuevo_stock_str = input("Nuevo stock: ")
+                    valido, nuevo_stock = validar_stock(nuevo_stock_str)
+                    if valido:
+                        producto['stock'] = nuevo_stock
+                        print("Stock actualizado")
+                    else:
+                        print(f"{nuevo_stock}")
+                        
+                elif campo == '4':
+                    nuevo_min_str = input("Nuevo stock minimo: ")
+                    valido, nuevo_min = validar_stock(nuevo_min_str)
+                    if valido:
+                        producto['stock_minimo'] = nuevo_min
+                        print("Stock minimo actualizado")
+                    else:
+                        print(f"{nuevo_min}")
+                else:
+                    print("Opcion invalida")
+                return
+                
+    except Exception as e:
+        print(f"\nError al modificar producto: {e}")

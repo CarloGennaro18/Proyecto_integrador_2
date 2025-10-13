@@ -8,7 +8,7 @@ from inventario import (
 
 
 def mostrar_menu():
-     """Muestra el menú principal del sistema"""
+     """Muestra el menu principal del sistema"""
      print("\n" + "="*60)
      print("         KIOSKO UNIVERSITARIO UCB - SISTEMA DE GESTIÓN")
      print("="*60)
@@ -25,13 +25,13 @@ def mostrar_menu():
      print("11. Ordenar productos por stock")
      print("12. Top 3 productos más vendidos del día")
      print("13. Productos bajo stock mínimo")
-     print("14. Estadísticas del día")
+     print("14. Estadisticas del dia")
      print("15. Resumen semanal de ventas")
      print("16. Exportar alertas de stock")
      print("0.  Salir y guardar")
      print("="*60)
 def main():
-    """Función principal del sistema"""
+    """Funcion principal del sistema"""
     productos, ventas_semana = cargar_datos_inicio()
     print("\n¡Bienvenido al Sistema de Gestión del Kiosko Universitario UCB!")
     print(f"Se han cargado {len(productos)} productos.")
@@ -45,10 +45,11 @@ def main():
                 alta_producto(productos)
             elif opcion == "2": # Baja de producto
                 baja_producto(productos)
-                
+            elif opcion == "3":# Modificar producto
+                modificar_producto(productos)    
                 
             else:
-                print("\nOpción invalida. Por favor seleccione una opción del menu.")
+                print("\nOpcion invalida. Por favor seleccione una opcion del menu.")
                 
         except KeyboardInterrupt:
             print("\n\nInterrupcion detectada. Guardando datos...")
@@ -58,6 +59,8 @@ def main():
         except Exception as e:
             print(f"\nError inesperado: {e}")
             print("Por favor, intente nuevamente.")
+            
+ 
             
 if __name__ == "__main__":
     main()

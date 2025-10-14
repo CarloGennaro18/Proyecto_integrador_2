@@ -202,3 +202,42 @@ def modificar_producto(productos):
                 
     except Exception as e:
         print(f"\nError al modificar producto: {e}")
+def reabastecer_producto(productos):
+    """Agregue stock a un producto existente"""
+    print("\n" + "="*60)
+    print("REABASTECER PRODUCTO")
+    print("="*60)
+    
+    if not productos:
+        print("No hay productos en el inventario")
+        return
+    
+    try:
+        codigo = input("Código del producto: ").strip().upper()
+        valido, mensaje = validar_codigo(codigo, productos, debe_existir=True)
+        if not valido:
+            print(f"{mensaje}")
+            return
+        
+        # Buscar producto
+        for producto in productos:
+            if producto['codigo'] == codigo:
+                print(f"\nProducto: {producto['nombre']}")
+                print(f"Stock actual: {producto['stock']}")
+                
+                cantidad_str = input("Cantidad a añadir: ")
+                valido, cantidad = validar_stock(cantidad_str)
+                if not valido:
+                    print(f"{cantidad}")
+                    return
+                
+                if cantidad <= 0:
+                    print("La cantidad debe ser mayor a 0")
+                    return
+                
+                producto['stock'] += cantidad
+                print(f"\nStock actualizado. Nuevo stock: {producto['stock']}")
+                return
+                
+    except Exception as e:
+        print(f"\nError al reabastecer: {e}")

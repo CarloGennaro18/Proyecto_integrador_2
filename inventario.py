@@ -238,6 +238,76 @@ def reabastecer_producto(productos):
                 producto['stock'] += cantidad
                 print(f"\nStock actualizado. Nuevo stock: {producto['stock']}")
                 return
-                
+
     except Exception as e:
         print(f"\nError al reabastecer: {e}")
+        
+def registrar_venta(productos, ventas_semana):
+    """Registra una venta y actualiza el inventario"""
+    print("\n" + "="*60)
+    print("REGISTRAR VENTA")
+    print("="*60)
+    
+    if not productos:
+        print("No hay productos en el inventario")
+        return
+    
+    try:
+        codigo = input("Codigo del producto: ").strip().upper()
+        valido, mensaje = validar_codigo(codigo, productos, debe_existir=True)
+        if not valido:
+            print(f"{mensaje}")
+            return
+        
+        # Buscar producto
+        for producto in productos:
+            if producto['codigo'] == codigo:
+                print(f"\nProducto: {producto['nombre']}")
+                print(f"Precio: Bs. {producto['precio']:.2f}")
+                print(f"Stock disponible: {producto['stock']}")
+                
+                cantidad_str = input("Cantidad a vender: ")
+                valido, cantidad = validar_stock(cantidad_str)
+                if not valido:
+                    print(f"{cantidad}")
+                    return
+                
+                if cantidad <= 0:
+                    print("La cantidad debe ser mayor a 0")
+                    return
+                
+                if cantidad > producto['stock']:
+                    print(f"Stock insuficiente. Solo hay {producto['stock']} unidades")
+                    return
+                
+                # Registrar venta
+                total = producto['precio'] * cantidad
+                producto['stock'] -= cantidad
+                producto['vendidos_hoy'] += cantidad
+                
+                # Actualizar matriz semanal
+                dia = datetime.now().weekday()  # 0=Lunes, 6=Domingo
+                hora = datetime.now().hour
+                
+                # Determinar franja (0= Manana, 1= Tarde, 2 = Noche)
+                if 6 <= hora < 12:
+                    franja = 0
+                elif 12 <= hora < 18:
+                    franja = 1
+                else:
+                    franja = 2
+                
+                ventas_semana[dia][franja] += total
+                
+                print(f"\nVenta registrada exitosamente")
+                print(f"   Cantidad: {cantidad}")
+                print(f"   Total: Bs. {total:.2f}")
+                print(f"   Stock restante: {producto['stock']}")
+                
+                if producto['stock'] <= producto['stock_minimo']:
+                    print(f"\nALERTA: Stock bajo el minimo ({producto['stock_minimo']})")
+                
+                return
+                
+    except Exception as e:
+        print(f"\nError al registrar venta: {e}")

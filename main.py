@@ -2,7 +2,7 @@
 """
 
 from inventario import (
-    alta_producto, baja_producto, modificar_producto, reabastecer_producto)
+    alta_producto, baja_producto, modificar_producto, reabastecer_producto, registrar_venta)
 
 
 
@@ -49,7 +49,8 @@ def main():
                 modificar_producto(productos)    
             elif opcion == "4":# Reabastecer producto
                 reabastecer_producto(productos)
-                
+            elif opcion == "5":# Registrar venta
+                registrar_venta(productos, ventas_semana)
             else:
                 print("\nOpcion invalida. Por favor seleccione una opcion del menu.")
                 

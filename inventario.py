@@ -311,3 +311,23 @@ def registrar_venta(productos, ventas_semana):
                 
     except Exception as e:
         print(f"\nError al registrar venta: {e}")
+def mostrar_inventario(productos):
+    """Muestra todos los productos del inventario"""
+    print("\n" + "="*60)
+    print("INVENTARIO COMPLETO")
+    print("="*60)
+    
+    if not productos:
+        print("No hay productos en el inventario")
+        return
+    
+    print(f"\n{'Código':<10} {'Nombre':<25} {'Precio':>10} {'Stock':>8} {'Mín.':>6}")
+    print("-" * 60)
+    
+    for producto in productos:
+        alerta = " !!! " if producto['stock'] <= producto['stock_minimo'] else ""
+        print(f"{producto['codigo']:<10} {producto['nombre']:<25} "
+              f"Bs. {producto['precio']:>6.2f} {producto['stock']:>8} "
+              f"{producto['stock_minimo']:>6}{alerta}")
+    
+    print(f"\nTotal de productos: {len(productos)}")

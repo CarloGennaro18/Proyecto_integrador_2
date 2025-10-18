@@ -134,3 +134,77 @@ def buscar_por_codigo(productos):
     
     except Exception as e:
         print(f"\nError en la busqueda: {e}")
+def ordenar_por_precio(productos):
+    """Ordena productos por precio ascendente"""
+    print("\n" + "="*60)
+    print("ORDENAR POR PRECIO (Ascendente)")
+    print("="*60)
+    
+    if not productos:
+        print("No hay productos en el inventario")
+        return
+    
+    try:
+        ordenar_burbuja(productos, lambda p: p['precio'], ascendente=True)
+        print("\nProductos ordenados por precio (menor a mayor):\n")
+        
+        print(f"{'Codigo':<10} {'Nombre':<25} {'Precio':>10} {'Stock':>8}")
+        print("-" * 60)
+        
+        for producto in productos:
+            print(f"{producto['codigo']:<10} {producto['nombre']:<25} "
+                  f"Bs. {producto['precio']:>6.2f} {producto['stock']:>8}")
+    
+    except Exception as e:
+        print(f"\nError al ordenar: {e}")
+
+
+def ordenar_por_nombre(productos):
+    """Ordena productos por nombre ascendente"""
+    print("\n" + "="*60)
+    print("ORDENAR POR NOMBRE (A-Z)")
+    print("="*60)
+    
+    if not productos:
+        print("No hay productos en el inventario")
+        return
+    
+    try:
+        ordenar_seleccion(productos, lambda p: p['nombre'].lower(), ascendente=True)
+        print("\nProductos ordenados alfabeticamente:\n")
+        
+        print(f"{'Codigo':<10} {'Nombre':<25} {'Precio':>10} {'Stock':>8}")
+        print("-" * 60)
+        
+        for producto in productos:
+            print(f"{producto['codigo']:<10} {producto['nombre']:<25} "
+                  f"Bs. {producto['precio']:>6.2f} {producto['stock']:>8}")
+    
+    except Exception as e:
+        print(f"\nError al ordenar: {e}")
+
+
+def ordenar_por_stock(productos):
+    """Ordena productos por stock de forma descendente"""
+    print("\n" + "="*60)
+    print("ORDENAR POR STOCK (Mayor a Menor)")
+    print("="*60)
+    
+    if not productos:
+        print("No hay productos en el inventario")
+        return
+    
+    try:
+        ordenar_burbuja(productos, lambda p: p['stock'], ascendente=False)
+        print("\nProductos ordenados por stock (mayor a menor):\n")
+        
+        print(f"{'Codigo':<10} {'Nombre':<25} {'Precio':>10} {'Stock':>8}")
+        print("-" * 60)
+        
+        for producto in productos:
+            alerta = " !!! " if producto['stock'] <= producto['stock_minimo'] else ""
+            print(f"{producto['codigo']:<10} {producto['nombre']:<25} "
+                  f"Bs. {producto['precio']:>6.2f} {producto['stock']:>8}{alerta}")
+    
+    except Exception as e:
+        print(f"\nError al ordenar: {e}")

@@ -4,7 +4,7 @@
 from inventario import (
     alta_producto, baja_producto, modificar_producto, reabastecer_producto, registrar_venta, mostrar_inventario)
 from busquedas_ordenamiento import (
-    buscar_por_nombre, buscar_por_codigo)
+    buscar_por_nombre, buscar_por_codigo, ordenar_por_precio, ordenar_por_nombre, ordenar_por_stock)
 
 
 
@@ -58,6 +58,12 @@ def main():
                 buscar_por_nombre(productos)
             elif opcion == "8":# Buscar por código
                 buscar_por_codigo(productos)
+            elif opcion == "9":# Ordenar por precio
+                ordenar_por_precio(productos) 
+            elif opcion == "10":# Ordenar por nombre
+                ordenar_por_nombre(productos)   
+            elif opcion == "11":# Ordenar por stock
+                ordenar_por_stock(productos)
             else:
                 print("\nOpcion invalida. Por favor seleccione una opcion del menu.")
                 

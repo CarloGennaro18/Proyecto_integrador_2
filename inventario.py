@@ -321,7 +321,7 @@ def mostrar_inventario(productos):
         print("No hay productos en el inventario")
         return
     
-    print(f"\n{'Código':<10} {'Nombre':<25} {'Precio':>10} {'Stock':>8} {'Mín.':>6}")
+    print(f"\n{'Codigo':<10} {'Nombre':<25} {'Precio':>10} {'Stock':>8} {'Mín.':>6}")
     print("-" * 60)
     
     for producto in productos:

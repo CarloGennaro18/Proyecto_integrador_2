@@ -3,7 +3,8 @@
 
 from inventario import (
     alta_producto, baja_producto, modificar_producto, reabastecer_producto, registrar_venta, mostrar_inventario)
-
+from busquedas_ordenamiento import (
+    buscar_por_nombre, buscar_por_codigo)
 
 
 
@@ -53,6 +54,10 @@ def main():
                 registrar_venta(productos, ventas_semana)
             elif opcion == "6":# Mostrar inventario
                 mostrar_inventario(productos)
+            elif opcion == "7":# Buscar por nombre
+                buscar_por_nombre(productos)
+            elif opcion == "8":# Buscar por código
+                buscar_por_codigo(productos)
             else:
                 print("\nOpcion invalida. Por favor seleccione una opcion del menu.")
                 

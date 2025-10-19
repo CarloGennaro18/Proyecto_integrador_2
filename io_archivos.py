@@ -72,7 +72,7 @@ def crear_productos_demo():
         },
         {
             'codigo': 'E4-050',
-            'nombre': 'Corrector líquido',
+            'nombre': 'Corrector liquido',
             'precio': 7.0,
             'stock': 15,
             'stock_minimo': 5,
@@ -120,3 +120,40 @@ def leer_csv(archivo):
     except Exception as e:
         print(f" !!! Error al leer CSV: {e}")
         return None
+
+def escribir_csv(archivo, productos):
+    """Escribe productos en archivo CSV"""
+    try:
+        with open(archivo, 'w', encoding='utf-8', newline='') as f:
+            campos = ['codigo', 'nombre', 'precio', 'stock', 'stock_minimo', 'vendidos_hoy']
+            escritor = csv.DictWriter(f, fieldnames=campos, delimiter=';')
+            escritor.writeheader()
+            escritor.writerows(productos)
+        return True
+    except Exception as e:
+        print(f"Error al escribir CSV: {e}")
+        return False
+
+
+def cargar_binario(archivo):
+    """Carga datos desde archivo binario usando pickle"""
+    try:
+        with open(archivo, 'rb') as f:
+            datos = pickle.load(f)
+        return datos
+    except FileNotFoundError:
+        return None
+    except Exception as e:
+        print(f"!!! Error al cargar binario: {e}")
+        return None
+
+
+def guardar_binario(archivo, datos):
+    """Guarda datos en archivo binario usando pickle"""
+    try:
+        with open(archivo, 'wb') as f:
+            pickle.dump(datos, f)
+        return True
+    except Exception as e:
+        print(f"Error al guardar binario: {e}")
+        return False

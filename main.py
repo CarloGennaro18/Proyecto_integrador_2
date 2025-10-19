@@ -1,6 +1,6 @@
 """Sistema de Gestion - Kiosko Universitario UCB, archivo principal con menú de opciones
 """
-
+from io_archivos import cargar_datos_inicio, guardar_datos_salida, exportar_alertas
 from inventario import (
     alta_producto, baja_producto, modificar_producto, reabastecer_producto, registrar_venta, mostrar_inventario)
 from busquedas_ordenamiento import (
@@ -73,6 +73,14 @@ def main():
                 estadisticas_dia(productos)
             elif opcion == "15":# Resumen semanal
                 resumen_semanal(ventas_semana)
+            elif opcion == "16":# Exportar alertas
+                exportar_alertas(productos)  
+            elif opcion == "0":# Salir y guardar
+                print("\nGuardando datos...")
+                guardar_datos_salida(productos, ventas_semana)
+                print("¡Datos guardados exitosamente!")
+                print("¡Hasta pronto!")
+                break
             else:
                 print("\nOpcion invalida. Por favor seleccione una opcion del menu.")
                 

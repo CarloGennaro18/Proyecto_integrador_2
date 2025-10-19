@@ -157,3 +157,55 @@ def guardar_binario(archivo, datos):
     except Exception as e:
         print(f"Error al guardar binario: {e}")
         return False
+
+def cargar_datos_inicio():
+    """Carga datos al iniciar el sistema - Prioriza CSV, crea datos demo si no existe"""
+    print("\n Cargando datos del sistema...")
+    
+    # Carga desde CSV
+    productos = leer_csv('datos.csv')
+    
+    if productos is None:
+        print("No se encontro datos.csv, creando productos para una demostracion...")
+        productos = crear_productos_demo()
+        escribir_csv('datos.csv', productos)
+    else:
+        print(f"Datos cargados desde datos.csv")
+    
+    # Crea matriz de ventas semanal
+    ventas_semana = crear_matriz_ventas()
+    
+    return productos, ventas_semana
+
+
+def guardar_datos_salida(productos, ventas_semana):
+    """Guarda datos al salir del sistema (CSV y binario)"""
+    # Guardar en CSV
+    if escribir_csv('datos.csv', productos):
+        print("Datos guardados en datos.csv")
+    
+    # Guardar en binario
+    datos_completos = {
+        'productos': productos,
+        'ventas_semana': ventas_semana
+    }
+    if guardar_binario('datos.bin', datos_completos):
+        print("Snapshot guardado en datos.bin")
+
+
+def exportar_alertas(productos):
+    """Exporta productos bajo stock minimo a alertas.csv"""
+    try:
+        alertas = [p for p in productos if p['stock'] <= p['stock_minimo']]
+        
+        if not alertas:
+            print("\nNo hay productos bajo stock minimo.")
+            return
+        
+        if escribir_csv('alertas.csv', alertas):
+            print(f"\nSe exportaron {len(alertas)} productos con alerta a alertas.csv")
+        else:
+            print("\nError al exportar alertas")
+            
+    except Exception as e:
+        print(f"\nError al exportar alertas: {e}")

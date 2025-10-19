@@ -6,7 +6,7 @@ from inventario import (
 from busquedas_ordenamiento import (
     buscar_por_nombre, buscar_por_codigo, ordenar_por_precio, ordenar_por_nombre, ordenar_por_stock)
 from reportes import (
-    top_vendidos, productos_bajo_stock, estadisticas_dia)
+    top_vendidos, productos_bajo_stock, estadisticas_dia, resumen_semanal)
 
 
 def mostrar_menu():
@@ -71,6 +71,8 @@ def main():
                 productos_bajo_stock(productos)
             elif opcion == "14":# Estadisticas del dia
                 estadisticas_dia(productos)
+            elif opcion == "15":# Resumen semanal
+                resumen_semanal(ventas_semana)
             else:
                 print("\nOpcion invalida. Por favor seleccione una opcion del menu.")
                 

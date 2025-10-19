@@ -106,3 +106,58 @@ def estadisticas_dia(productos):
     if mayor_ingreso[1] > 0:
         print(f"\nProducto con mayores ingresos:")
         print(f"  {mayor_ingreso[0]['nombre']} (Bs. {mayor_ingreso[1]:.2f})")
+def resumen_semanal(ventas_semana):
+    """Muestra el resumen de ventas de la semana por dia y franja horaria"""
+    print("\n" + "="*60)
+    print("RESUMEN SEMANAL DE VENTAS")
+    print("="*60)
+    
+    dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
+    franjas = ['Mañana', 'Tarde', 'Noche']
+    
+    # Verifica si hay ventas
+    total_semana = sum(sum(dia) for dia in ventas_semana)
+    
+    if total_semana == 0:
+        print("\n No se han registrado ventas en la semana")
+        return
+    
+    print(f"\n{'Dia':<12} {'Manana':>12} {'Tarde':>12} {'Noche':>12} {'Total Dia':>15}")
+    print("-" * 65)
+    
+    totales_franja = [0.0, 0.0, 0.0]
+    
+    for i, dia in enumerate(dias):
+        total_dia = sum(ventas_semana[i])
+        
+        print(f"{dia:<12} Bs. {ventas_semana[i][0]:>8.2f} "
+              f"Bs. {ventas_semana[i][1]:>8.2f} "
+              f"Bs. {ventas_semana[i][2]:>8.2f} "
+              f"Bs. {total_dia:>11.2f}")
+        
+        for j in range(3):
+            totales_franja[j] += ventas_semana[i][j]
+    
+    print("-" * 65)
+    print(f"{'TOTAL':<12} Bs. {totales_franja[0]:>8.2f} "
+          f"Bs. {totales_franja[1]:>8.2f} "
+          f"Bs. {totales_franja[2]:>8.2f} "
+          f"Bs. {total_semana:>11.2f}")
+    
+    # Estadisticas adicionales
+    print(f"\nAnalisis:")
+    
+    # Dia con mas ventas
+    max_dia_idx = max(range(7), key=lambda i: sum(ventas_semana[i]))
+    max_dia_total = sum(ventas_semana[max_dia_idx])
+    if max_dia_total > 0:
+        print(f"Mejor dia: {dias[max_dia_idx]} (Bs. {max_dia_total:.2f})")
+    
+    # Franja con mas ventas
+    max_franja_idx = totales_franja.index(max(totales_franja))
+    if totales_franja[max_franja_idx] > 0:
+        print(f"Mejor franja: {franjas[max_franja_idx]} (Bs. {totales_franja[max_franja_idx]:.2f})")
+    
+    # Promedio diario
+    promedio_dia = total_semana / 7
+    print(f"Promedio por dia: Bs. {promedio_dia:.2f}")

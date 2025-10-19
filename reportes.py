@@ -65,3 +65,44 @@ def productos_bajo_stock(productos):
               f"{diferencia:>12}")
     
     print("\n Sugerencia!!: Reabastecer estos productos pronto")
+def estadisticas_dia(productos):
+    """Muestra estadisticas de ventas del dia"""
+    print("\n" + "="*60)
+    print("ESTADISTICAS DEL DIA")
+    print("="*60)
+    
+    if not productos:
+        print("No hay productos en el inventario")
+        return
+    
+    # Calcular estadisticas
+    total_ventas = sum(p['vendidos_hoy'] for p in productos)
+    
+    if total_ventas == 0:
+        print("\nNo se han registrado ventas el dia de hoy")
+        return
+    
+    total_ingresos = sum(p['vendidos_hoy'] * p['precio'] for p in productos)
+    productos_vendidos = len([p for p in productos if p['vendidos_hoy'] > 0])
+    
+    # Calcular ticket promedio (considerando cada unidad como una transaccion)
+    ticket_promedio = total_ingresos / total_ventas if total_ventas > 0 else 0
+    
+    print(f"\nRESUMEN de ventas del dia:\n")
+    print(f"  Total de unidades vendidas: {total_ventas}")
+    print(f"  Productos diferentes vendidos: {productos_vendidos} de {len(productos)}")
+    print(f"  Ingresos totales: Bs. {total_ingresos:.2f}")
+    print(f"  Ticket promedio por unidad: Bs. {ticket_promedio:.2f}")
+    
+    # Producto mas vendido
+    mas_vendido = max(productos, key=lambda p: p['vendidos_hoy'])
+    if mas_vendido['vendidos_hoy'] > 0:
+        print(f"\nProducto mas vendido:")
+        print(f"  {mas_vendido['nombre']} ({mas_vendido['vendidos_hoy']} unidades)")
+    
+    # Producto con mayores ingresos
+    ingresos_por_producto = [(p, p['vendidos_hoy'] * p['precio']) for p in productos]
+    mayor_ingreso = max(ingresos_por_producto, key=lambda x: x[1])
+    if mayor_ingreso[1] > 0:
+        print(f"\nProducto con mayores ingresos:")
+        print(f"  {mayor_ingreso[0]['nombre']} (Bs. {mayor_ingreso[1]:.2f})")
